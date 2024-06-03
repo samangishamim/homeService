@@ -13,4 +13,7 @@ public interface OrderRepository  extends BaseRepository<Order, Long> {
     Optional<List<Order>> findBySubService(Long subServiceId);
 
     Optional<List<Order>> findByStatus(OrderStatus status);
+    List<Order> getAllOrders();
+    Order addOrder(Order order);
+    Order updateOrder(Order order);
 }
