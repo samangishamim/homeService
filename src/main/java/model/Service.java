@@ -1,0 +1,30 @@
+package model;
+
+
+import base.entity.BaseEntity;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.SoftDelete;
+
+import java.util.List;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+
+@SoftDelete
+@ToString(callSuper = true)
+
+@Entity
+@Table(name = "service")
+public class Service extends BaseEntity<Long> {
+    private String name;
+
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "service")
+    private List<SubService> subServices; // sub-services under this service
+}
