@@ -60,4 +60,29 @@ public class ProposalRepositoryImpl extends BaseRepositoryImpl<Proposal, Long> i
         return Optional.ofNullable(proposal);
 
     }
+
+    @Override
+    public List<Proposal> getProposalsByOrderId(Long orderId) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Proposal> query = session.createQuery("FROM Proposal p WHERE p.order.id = :orderId", Proposal.class);
+        query.setParameter("orderId", orderId);
+        return query.getResultList();
+
+    }
+
+    @Override
+
+    public Proposal addProposal(Proposal proposal) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(proposal);
+        return proposal;
+    }
+
+
+    @Override
+    public Proposal updateProposal(Proposal proposal) {
+        Session session = sessionFactory.getCurrentSession();
+        session.update(proposal);
+        return proposal;
+    }
 }
