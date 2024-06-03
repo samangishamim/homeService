@@ -3,12 +3,10 @@ package service.commentService;
 import base.service.BaseServiceImpl;
 import model.Comment;
 import model.Customer;
-import model.Order;
 import model.Proposal;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import repository.commentRepository.CommentRepository;
 
 import java.util.List;
