@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,4 +46,21 @@ public class CustomerRepositoryImpl extends BaseRepositoryImpl<Customer, Long> i
 
         return Optional.ofNullable(customer);
     }
+
+
+
+
+    @Override
+    public List<Customer> getAllCustomers() {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("from Customer");
+            List<Customer> customers = query.list();
+            session.getTransaction().commit();
+            return customers;
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
+
 }
