@@ -3,6 +3,7 @@ package service.specialistService;
 import base.service.BaseServiceImpl;
 import model.Customer;
 import model.Specialist;
+import model.SubService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import repository.specialistRepository.SpecialistRepository;
@@ -58,7 +59,7 @@ public class SpecialistServiceImpl extends BaseServiceImpl<Specialist, Long, Spe
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
             Specialist specialist = session.get(Specialist.class, id);
-            if (specialist!= null) {
+            if (specialist != null) {
                 session.delete(specialist);
             }
             session.getTransaction().commit();
@@ -71,7 +72,31 @@ public class SpecialistServiceImpl extends BaseServiceImpl<Specialist, Long, Spe
     public void addSpecialistToSubService(Long specialistId, Long subServiceId) {
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
-            repository.addSpecialistToSubService(specialistId, subServiceId);
+            Specialist specialist = session.get(Specialist.class, specialistId);
+            SubService subService = session.get(SubService.class, subServiceId);
+            if (specialist != null && subService != null) {
+                specialist.getSubServices().add(subService);
+                subService.getSpecialists().add(specialist);
+                session.save(specialist);
+            }
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void removeSpecialistFromSubService(Long specialistId, Long subServiceId) {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            Specialist specialist = session.get(Specialist.class, specialistId);
+            SubService subService = session.get(SubService.class, subServiceId);
+            if (specialist != null && subService != null) {
+                specialist.getSubServices().remove(subService);
+                subService.getSpecialists().remove(specialist);
+                session.save(specialist);
+            }
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,13 +104,18 @@ public class SpecialistServiceImpl extends BaseServiceImpl<Specialist, Long, Spe
     }
 
     @Override
-    public void removeSpecialistFromSubService(Long specialistId, Long subServiceId) {
+    public Specialist updateSpecialistCredit(Long specialistId, double credit) {
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
-            repository.removeSpecialistFromSubService(specialistId, subServiceId);
+            Specialist specialist = session.get(Specialist.class, specialistId);
+            if (specialist != null) {
+                specialist.setCredit(credit); // now this will work
+                session.save(specialist);
+            }
             session.getTransaction().commit();
+            return specialist;
         } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
     }
 }

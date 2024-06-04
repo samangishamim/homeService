@@ -31,6 +31,8 @@ public class Specialist extends Person {
     @Column(name = "enable")
     private boolean enable;
 
+    @Column(name = "credit")
+    private double credit;
 
     @Column(name = "specialist_status")
     @Enumerated(value = EnumType.STRING)
