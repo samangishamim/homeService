@@ -27,18 +27,6 @@ public class ProposalServiceImpl extends BaseServiceImpl<Proposal, Long, Proposa
     }
 
     @Override
-    public Proposal addProposal(Proposal proposal) {
-        try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
-            Proposal addedProposal = repository.addProposal(proposal);
-            session.getTransaction().commit();
-            return addedProposal;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @Override
     public Proposal updateProposal(Proposal proposal) {
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
@@ -61,6 +49,20 @@ public class ProposalServiceImpl extends BaseServiceImpl<Proposal, Long, Proposa
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    @Override
+    public Proposal addProposal(Proposal proposal) {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            if (proposal.getProposedPrice() <= 0 || proposal.getDuration() <= 0) {
+                throw new Exception("Invalid proposal details");
+            }
+            Proposal addedProposal = repository.addProposal(proposal);
+            session.getTransaction().commit();
+            return addedProposal;
+        } catch (Exception e) {
+            return null;
         }
     }
 }
