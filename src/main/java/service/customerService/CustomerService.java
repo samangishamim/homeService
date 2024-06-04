@@ -13,4 +13,5 @@ public interface CustomerService  extends BaseService<Customer,Long> {
     List<Customer> getAllCustomers();
     Customer updateCustomer(Customer customer);
     void deleteCustomer(Long id);
+    Customer updateCustomerCredit(Long customerId, double credit);
 }
