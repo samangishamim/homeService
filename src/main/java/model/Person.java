@@ -21,7 +21,11 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "person")
 public class Person extends BaseEntity<Long> {
+
+    @Column(name = "firstName")
     private String firstName ;
+
+    @Column(name = "lastName")
     private String lastName ;
 
     @Column(name = "email",unique = true)

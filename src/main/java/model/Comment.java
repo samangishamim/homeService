@@ -18,7 +18,10 @@ import org.hibernate.annotations.SoftDelete;
 @Entity
 @Table(name = "comment")
 public class Comment extends BaseEntity<Long> {
+    @Column(name = "comment")
     private String comment;
+
+    @Column(name = "rating")
     private int rating; // customer's rating for the specialist
 
 

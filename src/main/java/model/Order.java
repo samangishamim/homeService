@@ -22,8 +22,14 @@ import java.util.List;
 @Entity
 @Table(name = "order")
 public class Order extends BaseEntity<Long> {
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "proposed_Price")
     private double proposedPrice;
+
+    @Column(name = "workDate")
     private LocalDateTime workDate;
 
 

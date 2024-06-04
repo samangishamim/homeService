@@ -18,6 +18,8 @@ import java.util.List;
 @Entity
 @Table(name = "customer")
 public class Customer extends Person {
+
+    @Column(name = "credit")
     private double credit; // customer's credit
 
 

@@ -20,8 +20,14 @@ import java.util.List;
 @Entity
 @Table(name = "sub_service")
 public class SubService extends BaseEntity<Long> {
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "base_Price")
     private double basePrice;
+
+    @Column(name = "description")
     private String description;
 
 

@@ -21,6 +21,8 @@ import java.util.List;
 @Entity
 @Table(name = "service")
 public class Service extends BaseEntity<Long> {
+
+    @Column(name = "name")
     private String name;
 
 

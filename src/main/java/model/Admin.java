@@ -20,7 +20,9 @@ import java.util.Date;
 @Table(name = "admin")
 @Entity
 public class Admin extends BaseEntity<Long> {
+    @Column(name = "username")
     private String username;
 
+    @Column(name = "password")
     private String password;
 }

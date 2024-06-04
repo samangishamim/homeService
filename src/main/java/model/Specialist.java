@@ -20,11 +20,15 @@ import java.util.NavigableMap;
 @Entity
 @Table(name = "specialist")
 public class Specialist extends Person {
+
     @ToString.Exclude
+    @Column(name = "photo")
     private byte[] photo; // max 300KB, jpg format
 
+    @Column(name = "score")
     private int score; // initial score is 0
 
+    @Column(name = "enable")
     private boolean enable;
 
 
