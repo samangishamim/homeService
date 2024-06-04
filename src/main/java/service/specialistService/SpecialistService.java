@@ -19,5 +19,6 @@ public interface SpecialistService extends BaseService<Specialist,Long> {
 
     void removeSpecialistFromSubService(Long specialistId, Long subServiceId);
 
+    Specialist updateSpecialistCredit(Long specialistId, double credit);
 }
 
