@@ -5,17 +5,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SoftDelete;
 
 @Getter
 @Setter
 @NoArgsConstructor
-
+@AllArgsConstructor
 @SuperBuilder
 @SoftDelete
 @ToString(callSuper = true)
