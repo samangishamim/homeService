@@ -12,7 +12,7 @@ public interface ServiceRepository extends BaseRepository<Service,Long> {
 
     boolean existsServiceById(Long id);
     List<Service> getAllServices();
-    Optional<Service> addService(Service service);
+    List<Service> addService(Service service);
     Service updateService(Service service);
     void deleteService(Long id);
 }

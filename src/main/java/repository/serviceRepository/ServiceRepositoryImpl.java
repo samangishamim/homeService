@@ -2,15 +2,17 @@ package repository.serviceRepository;
 
 import base.repository.BaseRepository;
 import base.repository.BaseRepositoryImpl;
+import exception.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import model.Service;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import java.util.List;
-import java.util.Optional;
 
-public class ServiceRepositoryImpl extends BaseRepositoryImpl<Service,Long> implements ServiceRepository{
+@Slf4j
+public class ServiceRepositoryImpl extends BaseRepositoryImpl<Service, Long> implements ServiceRepository {
 
     public ServiceRepositoryImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -46,29 +48,25 @@ public class ServiceRepositoryImpl extends BaseRepositoryImpl<Service,Long> impl
 
     @Override
     public List<Service> getAllServices() {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Service> query = session.createQuery("FROM Service", Service.class);
-        return query.getResultList();
+        try(Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            Query<Service> query = session.createQuery("FROM Service", Service.class);
+            List<Service> services = query.getResultList();
+            session.getTransaction().commit();
+            return services;
+        } catch (Exception e) {
+            log.error("An error occurred while retrieving services", e);
+            return null;
+        }
     }
 
     @Override
-    public Optional<Service> addService(Service service) {
-        try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
-            Query<Service> query = session.createQuery("FROM Service s where s.name=:name", Service.class);
-            query.setParameter("name", service.getName());
-            List<Service> services = query.getResultList();
-            if (services.isEmpty()) {
-                session.save(service);
-                session.getTransaction().commit();
-                return Optional.of(service);
-            } else {
-                session.getTransaction().rollback();
-                return Optional.empty();
-            }
-        } catch (Exception e) {
-            return Optional.empty();
-        }
+    public List<Service> addService(Service service) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Service> query = session.createQuery("FROM Service s where s.name=:name", Service.class);
+        query.setParameter("name", service.getName());
+        List<Service> services = query.getResultList();
+       return services;
     }
 
     @Override
