@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import repository.adminRepository.AdminRepository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +49,11 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, Long, AdminReposito
         } catch (Exception e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public Admin findByUserNameAndPassword(String username, String password) {
+        return repository.findByUserNameAndPassword(username, password);
     }
 
 }
