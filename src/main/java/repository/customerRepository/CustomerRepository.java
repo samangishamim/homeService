@@ -1,7 +1,9 @@
 package repository.customerRepository;
 
 import base.repository.BaseRepository;
+import model.Admin;
 import model.Customer;
+import model.Person;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,4 +12,5 @@ public interface CustomerRepository extends BaseRepository<Customer, Long> {
     Optional<List<Customer>> findByEmail(String email);
     Optional<Customer> signIn(String email, String password);
     List<Customer> getAllCustomers();
+    Customer findByEmailAndPassword(String email, String password);
 }
