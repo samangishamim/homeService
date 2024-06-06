@@ -1,6 +1,8 @@
 package service.subserviceService;
 
 import base.service.BaseService;
+import model.Service;
+import model.Specialist;
 import model.SubService;
 
 import java.util.List;
@@ -10,7 +12,15 @@ public interface SubServiceService extends BaseService<SubService,Long> {
 
     SubService addSubService(SubService subService);
 
-    SubService updateSubService(SubService subService);
+
 
     void deleteSubService(Long id);
+    SubService getSubServiceByName(String name);
+    List<SubService> getSubServicesByService(Service service);
+
+    void addSpecialistToSubservice(Long specialistId, Long subServiceId);
+    void update(SubService subService);
+
+    void removeSpecialist(Long specialistId, Long subServiceId);
+
 }
