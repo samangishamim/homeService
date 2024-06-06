@@ -1,6 +1,7 @@
 package service.commentService;
 
 import base.service.BaseServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import model.Comment;
 import model.Customer;
 import model.Proposal;
@@ -11,6 +12,7 @@ import repository.commentRepository.CommentRepository;
 
 import java.util.List;
 
+@Slf4j
 public class CommentServiceImpl extends BaseServiceImpl<Comment, Long, CommentRepository> implements CommentService {
     public CommentServiceImpl(CommentRepository repository, SessionFactory sessionFactory) {
         super(repository, sessionFactory);
