@@ -29,7 +29,6 @@ public class CommentRepositoryImpl  extends BaseRepositoryImpl<Comment, Long> im
         Session session = sessionFactory.getCurrentSession();
         Query<Comment> query = session.createQuery("FROM Comment c WHERE c.proposal.id = :proposalId", Comment.class);
         query.setParameter("proposalId", proposalId);
-
         return query.list();
     }
 
@@ -38,7 +37,6 @@ public class CommentRepositoryImpl  extends BaseRepositoryImpl<Comment, Long> im
         Session session = sessionFactory.getCurrentSession();
         Query<Comment> query = session.createQuery("FROM Comment c WHERE c.customer.id = :customerId", Comment.class);
         query.setParameter("customerId", customerId);
-
         return query.list();
     }
 
@@ -47,7 +45,6 @@ public class CommentRepositoryImpl  extends BaseRepositoryImpl<Comment, Long> im
         Session session = sessionFactory.getCurrentSession();
         Query<Comment> query = session.createQuery("DELETE FROM Comment c WHERE c.id = :id");
         query.setParameter("id", id);
-
         query.executeUpdate();
     }
 
@@ -57,7 +54,6 @@ public class CommentRepositoryImpl  extends BaseRepositoryImpl<Comment, Long> im
         Query<Comment> query = session.createQuery("FROM Comment c WHERE c.id = :id", Comment.class);
         query.setParameter("id", id);
         Comment comment = query.uniqueResultOptional().orElse(null);
-
         return Optional.ofNullable(comment);
     }
 }
