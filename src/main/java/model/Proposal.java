@@ -30,6 +30,8 @@ public class Proposal extends BaseEntity<Long> {
     @Column(name = "duration")
     private int duration;
 
+    @Column(name = "is_accepted")
+    private boolean isAccepted;
 
 
     @ToString.Exclude
@@ -44,7 +46,5 @@ public class Proposal extends BaseEntity<Long> {
     private Specialist specialist; // specialist who made the proposal
 
 
-    @ToString.Exclude
-    @OneToOne(mappedBy = "proposal")
-    private Comment comment;
+
 }
