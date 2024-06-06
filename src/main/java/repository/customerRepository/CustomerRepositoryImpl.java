@@ -1,7 +1,9 @@
 package repository.customerRepository;
 
 import base.repository.BaseRepositoryImpl;
+import model.Admin;
 import model.Customer;
+import model.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -61,6 +63,18 @@ public class CustomerRepositoryImpl extends BaseRepositoryImpl<Customer, Long> i
         } catch (Exception e) {
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    public Customer findByEmailAndPassword(String email, String password) {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        Query<Customer> query = session.createQuery("from Person  p where p.email =: email and p.password =: password", Customer.class);
+        query.setParameter("email", email);
+        query.setParameter("password", password);
+        Customer customer= query.uniqueResult();
+        session.getTransaction().commit();
+        return customer;
     }
 
 }
