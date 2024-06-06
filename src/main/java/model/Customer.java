@@ -20,7 +20,7 @@ import java.util.List;
 public class Customer extends Person {
 
     @Column(name = "credit")
-    private double credit; // customer's credit
+    private double credit=0; // customer's credit
 
 
     @ToString.Exclude
@@ -28,7 +28,4 @@ public class Customer extends Person {
     private List<Order> orderList;
 
 
-    @ToString.Exclude
-    @OneToOne(mappedBy = "customer")
-    private Comment comment;
 }
