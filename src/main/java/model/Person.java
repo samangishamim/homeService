@@ -29,7 +29,7 @@ public class Person extends BaseEntity<Long> {
     private String lastName ;
 
     @Column(name = "email",unique = true)
-    private String email ;
+    public String email ;
 
     @ToString.Exclude
     private String password ;
