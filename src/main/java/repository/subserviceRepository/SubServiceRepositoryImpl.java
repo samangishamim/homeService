@@ -1,6 +1,7 @@
 package repository.subserviceRepository;
 
 import base.repository.BaseRepositoryImpl;
+import model.Service;
 import model.SubService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,7 +11,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class SubServiceRepositoryImpl extends BaseRepositoryImpl<SubService,Long>implements SubServiceRepository {
+
+public class SubServiceRepositoryImpl extends BaseRepositoryImpl<SubService, Long> implements SubServiceRepository {
     public SubServiceRepositoryImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
@@ -47,52 +49,18 @@ public class SubServiceRepositoryImpl extends BaseRepositoryImpl<SubService,Long
     }
 
     @Override
-    public Optional<SubService> addSubService(SubService subService) {
-        try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
-            Query<SubService> query = session.createQuery("FROM SubService s where s.serviceId=:serviceId and s.name=:name", SubService.class);
-            query.setParameter("serviceId", subService.getId());
-            query.setParameter("name", subService.getName());
-            List<SubService> subServices = query.getResultList();
-            if (subServices.isEmpty()) {
-                session.save(subService);
-                session.getTransaction().commit();
-                return Optional.of(subService);
-            } else {
-                session.getTransaction().rollback();
-                return Optional.empty();
-            }
-        } catch (Exception e) {
-            return Optional.empty();
-        }
+    public List<SubService> addSubService(SubService subService) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<SubService> query = session.createQuery("FROM SubService s where s.name=:name", SubService.class);
+        query.setParameter("name", subService.getName());
+        return query.getResultList();
     }
 
-    @Override
-    public SubService updateSubService(SubService subService) {
-        try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
-            Query<SubService> query = session.createQuery("UPDATE SubService SET name = :name, basePrice = :basePrice, description = :description WHERE id = :id", SubService.class);
-            query.setParameter("name", subService.getName());
-            query.setParameter("basePrice", subService.getBasePrice());
-            query.setParameter("description", subService.getDescription());
-            query.setParameter("id", subService.getId());
 
-            int result = query.executeUpdate();
-            session.getTransaction().commit();
-            if (result > 0) {
-                return subService;
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            return null;
-        }
-    }
 
     @Override
     public void deleteSubService(Long id) {
         try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
             Query query = session.createQuery("delete from SubService where id = :id");
             query.setParameter("id", id);
             query.executeUpdate();
@@ -101,4 +69,33 @@ public class SubServiceRepositoryImpl extends BaseRepositoryImpl<SubService,Long
             e.printStackTrace();
         }
     }
+
+    @Override
+    public SubService getSubServiceByName(String name) {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            Query<SubService> query = session.createQuery("from SubService where name = :name", SubService.class);
+            query.setParameter("name", name);
+            SubService subService = query.uniqueResult();
+            return subService;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<SubService> findByService(Service service) {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            Query<SubService> query = session.createQuery("SELECT s FROM SubService s WHERE s.service = :service", SubService.class);
+            query.setParameter("service", service);
+            List<SubService> subServices = query.getResultList();
+            session.getTransaction().commit();
+            return subServices;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
 }

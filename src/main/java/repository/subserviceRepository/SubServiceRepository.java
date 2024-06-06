@@ -1,6 +1,7 @@
 package repository.subserviceRepository;
 
 import base.repository.BaseRepository;
+import model.Service;
 import model.SubService;
 
 import java.util.List;
@@ -10,7 +11,10 @@ public interface SubServiceRepository extends BaseRepository<SubService, Long> {
 
     Optional<List<SubService>> findByServiceId(Long serviceId);
     List<SubService> getAllSubServices();
-    Optional<SubService> addSubService(SubService subService);
-    SubService updateSubService(SubService subService);
+    List<SubService> addSubService(SubService subService);
+
     void deleteSubService(Long id);
+    SubService getSubServiceByName(String name);
+    List<SubService> findByService(Service service);
+
 }
