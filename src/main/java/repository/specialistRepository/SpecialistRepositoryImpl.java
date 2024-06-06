@@ -189,4 +189,88 @@ public class SpecialistRepositoryImpl extends BaseRepositoryImpl<Specialist, Lon
 
         }
     }
+
+    public Specialist findByName(String name) {
+
+        Session session = sessionFactory.getCurrentSession();
+
+        session.beginTransaction();
+
+
+        Query<Specialist> query = session.createQuery("FROM Specialist s WHERE s.firstName = :name OR s.lastName = :name", Specialist.class);
+
+        query.setParameter("name", name);
+
+
+        Specialist specialist = query.uniqueResult();
+
+
+        session.getTransaction().commit();
+
+        return specialist;
+
+    }
+
+    @Override
+    public Specialist updateSpecialist(Specialist specialist) {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            Query<Specialist> query = session.createQuery("UPDATE Specialist s SET s.enabled = :enabled WHERE s.id = :id", Specialist.class);
+            query.setParameter("enabled", specialist.isEnable());
+            query.setParameter("id", specialist.getId());
+            query.executeUpdate();
+            session.getTransaction().commit();
+            return specialist;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Specialist findByEmailAndPassword(String email, String password) {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            Query<Specialist> query = session.createQuery("FROM Specialist s WHERE s.email = :email AND s.password = :password", Specialist.class);
+            query.setParameter("email", email);
+            query.setParameter("password", password);
+            Specialist specialist = query.uniqueResult();
+            session.getTransaction().commit();
+            return specialist;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Specialist updateSpecialistCredit(Long specialistId, double credit) {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            Specialist specialist = session.get(Specialist.class, specialistId);
+            if (specialist != null) {
+                specialist.setCredit(credit);
+                session.save(specialist);
+            }
+            session.getTransaction().commit();
+            return specialist;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public void saveUpdate(Specialist specialist) {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        session.saveOrUpdate(specialist);
+        session.getTransaction().commit();
+    }
+
+    @Override
+    public void update(Specialist specialist) {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        session.update(specialist);
+        session.getTransaction().commit();
+    }
 }

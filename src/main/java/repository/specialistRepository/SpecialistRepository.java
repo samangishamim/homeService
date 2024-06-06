@@ -18,5 +18,11 @@ public interface SpecialistRepository  extends BaseRepository<Specialist, Long> 
     void deleteSpecialist(Long id);
     void removeSpecialistFromSubService(Long specialistId, Long subServiceId);
     void addSpecialistToSubService(Long specialistId, Long subServiceId);
+    Specialist findByName(String name);
+    Specialist updateSpecialist(Specialist specialist);
+    Specialist findByEmailAndPassword(String email, String password);
+    public Specialist updateSpecialistCredit(Long specialistId, double credit);
+    void saveUpdate(Specialist specialist);
+    void update(Specialist specialist);
 
 }

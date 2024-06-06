@@ -1,6 +1,7 @@
 package service.serviceService;
 
 import base.service.BaseServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import model.Service;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class ServiceServiceImpl extends BaseServiceImpl<Service, Long, ServiceRepository> implements ServiceService {
     public ServiceServiceImpl(ServiceRepository repository, SessionFactory sessionFactory) {
         super(repository, sessionFactory);
@@ -18,9 +20,8 @@ public class ServiceServiceImpl extends BaseServiceImpl<Service, Long, ServiceRe
     @Override
     public List<Service> getAllServices() {
         try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
             List<Service> services = repository.getAllServices();
-            session.getTransaction().commit();
+            session.getTransaction();
             return services;
         } catch (Exception e) {
             return Collections.emptyList();
@@ -31,17 +32,21 @@ public class ServiceServiceImpl extends BaseServiceImpl<Service, Long, ServiceRe
     public Service addService(Service service) {
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
-            Optional<Service> addedServiceOptional = repository.addService(service);
-            session.getTransaction().commit();
-            // Check if the service was added successfully
+            List<Service> services = repository.addService(service);
 
-            if (addedServiceOptional.isPresent()) {
-                return addedServiceOptional.get();
+            if (services.isEmpty()) {
+                Service service1 = repository.saveOrUpdate(service);
+                session.getTransaction().commit();
+                log.info("the service : {} is added ", service1);
+                return service1;
+
             } else {
-                return null; // or throw an exception, depending on your requirements
+                log.warn("duplicate service");
+                return null;
             }
-        } catch (Exception e) {
-            return null; // or throw an exception, depending on your requirements
+        }catch (Exception e){
+            log.error("error - adding service ");
+            return null;
         }
     }
 
