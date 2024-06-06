@@ -1,7 +1,9 @@
 package service.specialistService;
 
 import base.service.BaseServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import model.Customer;
+import model.Order;
 import model.Specialist;
 import model.SubService;
 import org.hibernate.Session;
@@ -10,6 +12,8 @@ import repository.specialistRepository.SpecialistRepository;
 
 import java.util.Collections;
 import java.util.List;
+
+@Slf4j
 
 public class SpecialistServiceImpl extends BaseServiceImpl<Specialist, Long, SpecialistRepository> implements SpecialistService {
     public SpecialistServiceImpl(SpecialistRepository repository, SessionFactory sessionFactory) {
@@ -61,8 +65,11 @@ public class SpecialistServiceImpl extends BaseServiceImpl<Specialist, Long, Spe
             Specialist specialist = session.get(Specialist.class, id);
             if (specialist != null) {
                 session.delete(specialist);
+                session.getTransaction().commit();
+                System.out.println("Specialist deleted successfully!");
+            } else {
+                System.out.println("Specialist not found!");
             }
-            session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,5 +124,30 @@ public class SpecialistServiceImpl extends BaseServiceImpl<Specialist, Long, Spe
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public Specialist getSpecialistByName(String name) {
+
+        return repository.findByName(name);
+
+    }
+
+    @Override
+    public Specialist findByEmailAndPassword(String email, String password) {
+        return repository.findByEmailAndPassword(email, password);    }
+
+    @Override
+    public void saveUpdate(Specialist specialist) {
+        repository.saveOrUpdate(specialist);
+    }
+
+    @Override
+    public void update(Specialist specialist) {
+        repository.saveOrUpdate(specialist);
+    }
+
+    @Override
+    public void sendProposal(Order order) {
+
     }
 }
