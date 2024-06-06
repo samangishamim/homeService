@@ -2,7 +2,7 @@ package service.orderService;
 
 import base.service.BaseServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import model.Order;
+import model.*;
 import myEnum.OrderStatus;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,17 +26,18 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long, OrderReposito
             return orders;
         } catch (Exception e) {
             return Collections.emptyList();
-        }    }
+        }
+    }
 
     @Override
-    public Order updateOrder(Order order) {
+    public void updateOrder(Long orderId, OrderStatus status) {
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
-            Order updatedOrder = repository.updateOrder(order);
+            Order order = session.get(Order.class, orderId);
+            order.setStatus(status);
+            repository.saveOrUpdate(order);
             session.getTransaction().commit();
-            return updatedOrder;
-        } catch (Exception e) {
-            return null;
+            log.info("the proposal for order with id: {} is accepted",orderId);
         }
     }
 
@@ -45,7 +46,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long, OrderReposito
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
             Order order = session.get(Order.class, id);
-            if (order!= null) {
+            if (order != null) {
                 session.delete(order);
             }
             session.getTransaction().commit();
@@ -53,12 +54,13 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long, OrderReposito
             e.printStackTrace();
         }
     }
+
     @Override
 
     public Order addOrder(Order order) {
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
-            if (order.getProposedPrice() <= 0 || order.getDescription() == null || order.getDescription().trim().isEmpty() || order.getWorkDate() == null ) {
+            if (order.getProposedPrice() <= 0 || order.getDescription() == null || order.getDescription().trim().isEmpty() || order.getWorkDate() == null) {
                 throw new Exception("Invalid order details");
             }
             Order addedOrder = repository.addOrder(order);
@@ -84,5 +86,37 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long, OrderReposito
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public List<Order> getOrdersByCustomer(Customer customer) {
+        return repository.findByCustomer(customer);
+    }
+
+    @Override
+    public void saveAnOrder(Order order, Address address, Long customerId, Long subserviceId) {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            Customer customer = session.get(Customer.class, customerId);
+            SubService subService = session.get(SubService.class, subserviceId);
+
+            order.setAddress(address);
+            order.setCustomer(customer);
+            order.setSubService(subService);
+            repository.saveOrUpdate(order);
+
+            session.getTransaction().commit();
+            log.info("order is register");
+        }
+    }
+
+    @Override
+    public List<Order> getOrdersByStatus(OrderStatus status) {
+        return repository.getOrdersByStatus(status);
+    }
+
+    @Override
+    public List<Order> getOrdersBySpecialist(Specialist specialistId) {
+        return repository.getOrdersBySpecialist(specialistId);
     }
 }
