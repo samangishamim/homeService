@@ -1,7 +1,9 @@
 package repository.orderRepository;
 
 import base.repository.BaseRepositoryImpl;
+import model.Customer;
 import model.Order;
+import model.Specialist;
 import myEnum.OrderStatus;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -58,16 +60,9 @@ public class OrderRepositoryImpl extends BaseRepositoryImpl<Order, Long> impleme
 
     @Override
     public List<Order> getAllOrders() {
-        try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
-            Query query = session.createQuery("from Order o order by o.id desc");
-            List<Order> orders = query.list();
-            session.getTransaction().commit();
-            return orders;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
+       Session session = sessionFactory.getCurrentSession();
+            Query<Order> query = session.createQuery("from Order o order by o.id desc", Order.class);
+            return query.getResultList();
     }
 
     @Override
@@ -97,31 +92,51 @@ public class OrderRepositoryImpl extends BaseRepositoryImpl<Order, Long> impleme
         }
     }
 
+
     @Override
-    public Order updateOrder(Order order) {
+    public List<Order> findByCustomer(Customer customer) {
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
-            Query query = session.createQuery("update Order set description = :description, proposedPrice = :proposedPrice, workDate = :workDate, customer = :customer, subService = :subService, status = :status, address = :address where id = :id");
-
-            query.setParameter("description", order.getDescription());
-            query.setParameter("proposedPrice", order.getProposedPrice());
-            query.setParameter("workDate", order.getWorkDate());
-            query.setParameter("customer", order.getCustomer());
-            query.setParameter("subService", order.getSubService());
-            query.setParameter("status", order.getStatus());
-            query.setParameter("address", order.getAddress());
-            query.setParameter("id", order.getId());
-
-            int result = query.executeUpdate();
+            Query<Order> query = session.createQuery("FROM Order o WHERE o.customer = :customer", Order.class);
+            query.setParameter("customer", customer);
+            List<Order> orders = query.getResultList();
             session.getTransaction().commit();
-            if (result > 0) {
-                return order;
-            } else {
-                return null;
-            }
+            return orders;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Order> getOrdersByStatus(OrderStatus status) {
+        Session session = sessionFactory.getCurrentSession();
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("FROM Order o WHERE o.status = :status");
+            query.setParameter("status", status);
+            List<Order> orders = query.list();
+            session.getTransaction().commit();
+            return orders;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Order> getOrdersBySpecialist(Specialist specialist) {
+        Session session = sessionFactory.getCurrentSession();
+        try {
+            session.beginTransaction();
+            Query<Order> query = session.createQuery("FROM Order o WHERE o.specialist.id=:specialistId", Order.class);
+            query.setParameter("specialistId", specialist.getId());
+            List<Order> orders = query.getResultList();
+            session.getTransaction().commit();
+            return orders;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw e;
         }
     }
 }
