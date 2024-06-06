@@ -3,7 +3,6 @@ package service.adminService;
 import base.service.BaseService;
 import model.*;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface AdminService extends BaseService<Admin,Long> {
@@ -11,5 +10,6 @@ public interface AdminService extends BaseService<Admin,Long> {
 
 
     Optional<Admin> findByUsername(String username) ;
+    Admin findByUserNameAndPassword(String username, String password);
 
 }
