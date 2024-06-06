@@ -22,13 +22,13 @@ public class Comment extends BaseEntity<Long> {
     private String comment;
 
     @Column(name = "rating")
-    private int rating; // customer's rating for the specialist
+    private int rating;
 
 
     @ToString.Exclude
     @OneToOne
     @JoinColumn(name = "proposal_id")
-    private Proposal proposal; // order for which the comment is made
+    private Proposal proposal;
 
 
     @ToString.Exclude

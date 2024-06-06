@@ -25,9 +25,7 @@ public class Service extends BaseEntity<Long> {
     @Column(name = "name")
     private String name;
 
-
-
     @ToString.Exclude
     @OneToMany(mappedBy = "service",fetch = FetchType.EAGER)
-    private List<SubService> subServices; // sub-services under this service
+    private List<SubService> subServices;
 }

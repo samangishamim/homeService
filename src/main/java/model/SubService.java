@@ -35,7 +35,7 @@ public class SubService extends BaseEntity<Long> {
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "service_id")
-    private Service service; // parent service
+    private Service service;
 
 
     @ToString.Exclude
@@ -45,7 +45,7 @@ public class SubService extends BaseEntity<Long> {
             joinColumns = @JoinColumn(name = "sub_service_id"),
             inverseJoinColumns = @JoinColumn(name = "specialist_id")
     )
-    private List<Specialist> specialists; // specialists offering this sub-service
+    private List<Specialist> specialists;
 
     public void addSpecialist(Specialist specialist){
         if (specialists==null){

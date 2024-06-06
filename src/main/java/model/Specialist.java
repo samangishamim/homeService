@@ -22,10 +22,10 @@ public class Specialist extends Person {
 
     @ToString.Exclude
     @Column(name = "photo")
-    private byte[] photo; // max 300KB, jpg format
+    private byte[] photo;
 
     @Column(name = "score")
-    private int score; // initial score is 0
+    private int score;
 
     @Column(name = "enable")
     private boolean enable;
@@ -44,7 +44,7 @@ public class Specialist extends Person {
             joinColumns = @JoinColumn(name = "specialist_id"),
             inverseJoinColumns = @JoinColumn(name = "sub_service_id"))
 
-    private List<SubService> subServices; // services offered by the specialist
+    private List<SubService> subServices;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "specialist")

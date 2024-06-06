@@ -7,7 +7,6 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SoftDelete;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 @Getter
 @Setter
 @AllArgsConstructor
@@ -37,13 +36,13 @@ public class Proposal extends BaseEntity<Long> {
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order; // order for which the proposal is made
+    private Order order;
 
 
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "specialist_id")
-    private Specialist specialist; // specialist who made the proposal
+    private Specialist specialist;
 
 
 
