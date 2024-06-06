@@ -7,7 +7,6 @@ import myEnum.Status;
 import org.hibernate.annotations.SoftDelete;
 
 import java.util.List;
-import java.util.NavigableMap;
 
 @Getter
 @Setter
@@ -32,7 +31,7 @@ public class Specialist extends Person {
     private boolean enable;
 
     @Column(name = "credit")
-    private double credit;
+    private double credit = 0;
 
     @Column(name = "specialist_status")
     @Enumerated(value = EnumType.STRING)
@@ -40,8 +39,8 @@ public class Specialist extends Person {
 
 
     @ToString.Exclude
-    @ManyToMany
-    @JoinTable(name = "specialist_subservice",
+    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinTable(name = "specialist_sub_service",
             joinColumns = @JoinColumn(name = "specialist_id"),
             inverseJoinColumns = @JoinColumn(name = "sub_service_id"))
 
@@ -50,4 +49,6 @@ public class Specialist extends Person {
     @ToString.Exclude
     @OneToMany(mappedBy = "specialist")
     private List<Proposal> proposalList;
+
+
 }
