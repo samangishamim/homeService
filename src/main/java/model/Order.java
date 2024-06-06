@@ -20,7 +20,7 @@ import java.util.List;
 @ToString(callSuper = true)
 
 @Entity
-@Table(name = "order")
+@Table(name = "my_order")
 public class Order extends BaseEntity<Long> {
 
     @Column(name = "description")
@@ -47,12 +47,12 @@ public class Order extends BaseEntity<Long> {
     @OneToMany(mappedBy = "order")
     private List<Proposal> proposals;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value=EnumType.STRING)
     private OrderStatus status;
 
 
     @ToString.Exclude
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "address_id")
     private Address address;
 }
