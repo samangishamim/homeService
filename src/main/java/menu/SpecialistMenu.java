@@ -4,11 +4,8 @@ import model.*;
 import myEnum.OrderStatus;
 import myEnum.Status;
 import org.apache.commons.text.RandomStringGenerator;
-import service.adminService.AdminService;
-import service.customerService.CustomerService;
 import service.orderService.OrderService;
 import service.proposalService.ProposalService;
-import service.serviceService.ServiceService;
 import service.specialistService.SpecialistService;
 import service.subserviceService.SubServiceService;
 import utility.ApplicationContext;
@@ -23,16 +20,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SpecialistMenu {
-    private final AdminService adminService = ApplicationContext.getAdminService();
-
-    private final ServiceService serviceService = ApplicationContext.getServiceService();
-
     private final OrderService orderService = ApplicationContext.getOrderService();
 
     private final SubServiceService subServiceService = ApplicationContext.getSubServiceService();
 
     private final SpecialistService specialistService = ApplicationContext.getSpecialistService();
-    private final CustomerService customerService = ApplicationContext.getCustomerService();
     private final ProposalService proposalService = ApplicationContext.getProposalService();
     Scanner scanner = new Scanner(System.in);
 
@@ -332,9 +324,9 @@ public class SpecialistMenu {
             String filePath = Input.getString();
             File file = new File(filePath);
             if (file.exists() && file.isFile()) {
-                if (file.length() <= 300 * 1024) { // 300KB
+                if (file.length() <= 300 * 1024) {
                     String fileType = getContentType(file);
-                    if (fileType.equals("image/jpeg")) { // JPG format
+                    if (fileType.equals("image/jpeg")) {
                         try {
                             photo = Files.readAllBytes(file.toPath());
                             break;
