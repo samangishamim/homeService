@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SoftDelete;
+
 @Getter
 @Setter
 @AllArgsConstructor

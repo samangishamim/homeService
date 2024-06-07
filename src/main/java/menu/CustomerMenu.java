@@ -3,9 +3,6 @@ package menu;
 import model.*;
 import myEnum.OrderStatus;
 import org.apache.commons.text.RandomStringGenerator;
-import repository.customerRepository.CustomerRepository;
-import repository.specialistRepository.SpecialistRepository;
-import repository.subserviceRepository.SubServiceRepository;
 import service.adminService.AdminService;
 import service.customerService.CustomerService;
 import service.orderService.OrderService;
@@ -19,12 +16,10 @@ import utility.Validation;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 public class CustomerMenu {
-    private final AdminService adminService = ApplicationContext.getAdminService();
     private final ServiceService serviceService = ApplicationContext.getServiceService();
     private final OrderService orderService = ApplicationContext.getOrderService();
     private final SubServiceService subServiceService = ApplicationContext.getSubServiceService();
@@ -316,7 +311,7 @@ public class CustomerMenu {
 
         proposalService.acceptProposal(proposal.getId());
 
-        orderService.updateOrder(order.getId(), OrderStatus.WAITING_FOR_SPECIALIST_SELECTION);
+        orderService.updateOrder(order.getId(), OrderStatus.STARTED);
         System.out.println("Proposal selected successfully!");
     }
 

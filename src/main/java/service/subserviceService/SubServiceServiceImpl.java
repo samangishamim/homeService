@@ -7,7 +7,6 @@ import model.Specialist;
 import model.SubService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.id.factory.IdentifierGeneratorFactory;
 import repository.subserviceRepository.SubServiceRepository;
 
 import java.util.Collections;

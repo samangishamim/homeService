@@ -2,7 +2,6 @@ package repository.addressRepository;
 
 import base.repository.BaseRepository;
 import model.Address;
-import model.Admin;
 
 import java.util.Optional;
 

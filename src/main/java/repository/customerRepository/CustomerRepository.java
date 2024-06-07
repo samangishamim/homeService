@@ -1,10 +1,7 @@
 package repository.customerRepository;
 
 import base.repository.BaseRepository;
-import model.Admin;
 import model.Customer;
-import model.Person;
-
 import java.util.List;
 import java.util.Optional;
 

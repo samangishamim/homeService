@@ -100,6 +100,8 @@ public class ProposalServiceImpl extends BaseServiceImpl<Proposal, Long, Proposa
         }
     }
 
+
+
     @Override
     public Proposal addProposal(Proposal proposal) {
         try (Session session = sessionFactory.getCurrentSession()) {

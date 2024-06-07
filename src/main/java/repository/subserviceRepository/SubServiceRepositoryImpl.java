@@ -27,25 +27,12 @@ public class SubServiceRepositoryImpl extends BaseRepositoryImpl<SubService, Lon
         return "sub_service";
     }
 
-    @Override
-    public Optional<List<SubService>> findByServiceId(Long serviceId) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<SubService> query = session.createQuery("FROM SubService s WHERE s.service.id = :serviceId", SubService.class);
-        query.setParameter("serviceId", serviceId);
-        List<SubService> subServiceList = query.getResultList();
-        return Optional.ofNullable(subServiceList);
-    }
+
 
     @Override
     public List<SubService> getAllSubServices() {
-        try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
-            List<SubService> subServices = session.createQuery("FROM SubService", SubService.class).list();
-            session.getTransaction().commit();
-            return subServices;
-        } catch (Exception e) {
-            return Collections.emptyList();
-        }
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("FROM SubService", SubService.class).list();
     }
 
     @Override

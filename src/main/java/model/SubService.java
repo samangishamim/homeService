@@ -35,7 +35,7 @@ public class SubService extends BaseEntity<Long> {
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "service_id")
-    private Service service;
+    private Service service; // parent service
 
 
     @ToString.Exclude

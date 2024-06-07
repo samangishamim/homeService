@@ -1,10 +1,5 @@
 package menu;
 
-import model.*;
-import menu.AdminMenu;
-import menu.CustomerMenu;
-import menu.SpecialistMenu;
-
 import java.util.Scanner;
 
 public class MainMenu {

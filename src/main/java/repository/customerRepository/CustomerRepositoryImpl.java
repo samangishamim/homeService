@@ -1,9 +1,7 @@
 package repository.customerRepository;
 
 import base.repository.BaseRepositoryImpl;
-import model.Admin;
 import model.Customer;
-import model.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

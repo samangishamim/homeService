@@ -1,8 +1,6 @@
 package repository.serviceRepository;
 
-import base.repository.BaseRepository;
 import base.repository.BaseRepositoryImpl;
-import exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import model.Service;
 import org.hibernate.Session;
@@ -28,23 +26,7 @@ public class ServiceRepositoryImpl extends BaseRepositoryImpl<Service, Long> imp
         return "service";
     }
 
-    @Override
-    public List<Service> findServicesByName(String name) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Service> query = session.createQuery("FROM Service s WHERE s.name = :name", Service.class);
-        query.setParameter("name", name);
 
-        return query.getResultList();
-    }
-
-    @Override
-    public boolean existsServiceById(Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Service> query = session.createQuery("FROM Service s WHERE s.id = :id", Service.class);
-        query.setParameter("id", id);
-
-        return !query.getResultList().isEmpty();
-    }
 
     @Override
     public List<Service> getAllServices() {

@@ -36,20 +36,6 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, Long, AdminReposito
         }
     }
 
-    @Override
-    public Optional<Admin> findByUsername(String username) {
-        try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
-            List<Admin> admins = repository.findByUsername(username);
-            session.getTransaction().commit();
-            if (admins.isEmpty()) {
-                return Optional.empty();
-            }
-            return Optional.of(admins.get(0));
-        } catch (Exception e) {
-            return Optional.empty();
-        }
-    }
 
     @Override
     public Admin findByUserNameAndPassword(String username, String password) {

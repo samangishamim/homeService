@@ -1,12 +1,10 @@
 package menu;
 
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import model.*;
 import myEnum.Status;
 import org.apache.commons.text.RandomStringGenerator;
 import service.adminService.AdminService;
-import service.orderService.OrderService;
 import service.serviceService.ServiceService;
 import service.specialistService.SpecialistService;
 import service.subserviceService.SubServiceService;
@@ -21,8 +19,6 @@ public class AdminMenu {
     final AdminService adminService = ApplicationContext.getAdminService();
 
     final ServiceService serviceService = ApplicationContext.getServiceService();
-
-    final OrderService orderService = ApplicationContext.getOrderService();
 
     final SubServiceService subServiceService = ApplicationContext.getSubServiceService();
 

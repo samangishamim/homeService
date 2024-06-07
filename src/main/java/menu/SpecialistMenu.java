@@ -4,9 +4,6 @@ import model.*;
 import myEnum.OrderStatus;
 import myEnum.Status;
 import org.apache.commons.text.RandomStringGenerator;
-import repository.customerRepository.CustomerRepository;
-import repository.specialistRepository.SpecialistRepository;
-import repository.subserviceRepository.SubServiceRepository;
 import service.adminService.AdminService;
 import service.customerService.CustomerService;
 import service.orderService.OrderService;
@@ -19,7 +16,6 @@ import utility.Input;
 import utility.Validation;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -258,7 +254,7 @@ public class SpecialistMenu {
                 .score(0)
                 .enable(false)
                 .credit(0.0)
-                .specialistStatus(Status.CONFIRMED)
+                .specialistStatus(Status.NEW)
                 .photo(photo)
                 .build();
         specialist.setFirstName(firstName);

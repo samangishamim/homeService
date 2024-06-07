@@ -1,7 +1,6 @@
 package service.specialistService;
 
 import base.service.BaseService;
-import model.Customer;
 import model.Order;
 import model.Specialist;
 

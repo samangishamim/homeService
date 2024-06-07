@@ -28,35 +28,6 @@ public class OrderRepositoryImpl extends BaseRepositoryImpl<Order, Long> impleme
         return "order";
     }
 
-    @Override
-    public Optional<List<Order>> findByCustomer(Long customerId) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Order> query = session.createQuery("FROM Order o WHERE o.customer.id = :customerId", Order.class);
-        query.setParameter("customerId", customerId);
-        List<Order> orderList = query.getResultList();
-
-        return Optional.ofNullable(orderList);
-    }
-
-    @Override
-    public Optional<List<Order>> findBySubService(Long subServiceId) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Order> query = session.createQuery("FROM Order o WHERE o.subService.id = :subServiceId", Order.class);
-        query.setParameter("subServiceId", subServiceId);
-        List<Order> orderList = query.getResultList();
-
-        return Optional.ofNullable(orderList);
-    }
-
-    @Override
-    public Optional<List<Order>> findByStatus(OrderStatus status) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Order> query = session.createQuery("FROM Order o WHERE o.status = :status", Order.class);
-        query.setParameter("status", status);
-        List<Order> orderList = query.getResultList();
-
-        return Optional.ofNullable(orderList);
-    }
 
     @Override
     public List<Order> getAllOrders() {

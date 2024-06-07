@@ -39,21 +39,4 @@ public class CommentRepositoryImpl  extends BaseRepositoryImpl<Comment, Long> im
         query.setParameter("customerId", customerId);
         return query.list();
     }
-
-    @Override
-    public void deleteCommentById(Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Comment> query = session.createQuery("DELETE FROM Comment c WHERE c.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
-    }
-
-    @Override
-    public Optional<Comment> findCommentById(Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Comment> query = session.createQuery("FROM Comment c WHERE c.id = :id", Comment.class);
-        query.setParameter("id", id);
-        Comment comment = query.uniqueResultOptional().orElse(null);
-        return Optional.ofNullable(comment);
-    }
 }

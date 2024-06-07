@@ -26,27 +26,6 @@ public class SpecialistRepositoryImpl extends BaseRepositoryImpl<Specialist, Lon
         return "specialist";
     }
 
-    @Override
-    public Optional<List<Specialist>> findByOrderId(Long orderId) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Specialist> query = session.createQuery("FROM Specialist s WHERE s.order.id = :orderId", Specialist.class);
-        query.setParameter("orderId", orderId);
-        List<Specialist> specialistList = query.getResultList();
-        return Optional.ofNullable(specialistList);
-
-    }
-
-
-    @Override
-
-    public Optional<List<Specialist>> findByProposalId(Long proposalId) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Specialist> query = session.createQuery("FROM Specialist s WHERE s.proposal.id = :proposalId", Specialist.class);
-        query.setParameter("proposalId", proposalId);
-        List<Specialist> specialistList = query.getResultList();
-        return Optional.ofNullable(specialistList);
-
-    }
 
 
     @Override
