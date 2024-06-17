@@ -206,20 +206,13 @@ public class AdminMenu {
     }
 
     public void enableSpecialist() {
-
         System.out.print("Enter specialist ID: ");
-
         Long specialistId = scanner.nextLong();
-
         Specialist specialist = specialistService.findById(specialistId);
-
         specialist.setEnable(true);
         specialist.setSpecialistStatus(Status.CONFIRMED);
-
         specialistService.updateSpecialist(specialist);
-
         System.out.println("Specialist enabled successfully!");
-
     }
 
     public void removeSpecialistFromSubService() {

@@ -23,7 +23,6 @@ public class SpecialistServiceImpl extends BaseServiceImpl<Specialist, Long, Spe
     @Override
     public List<Specialist> getAllSpecialists() {
         try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
             List<Specialist> specialistList = repository.getAllSpecialists();
             session.getTransaction().commit();
             return specialistList;

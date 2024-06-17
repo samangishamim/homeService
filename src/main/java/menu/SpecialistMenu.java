@@ -63,6 +63,10 @@ public class SpecialistMenu {
             System.out.println("Invalid email or password. Please try again.");
             return;
         }
+        if (!specialist.getSpecialistStatus().equals(Status.CONFIRMED) || !specialist.isEnable()) {
+            System.out.println("Your account is not confirmed or enabled. Please contact the administrator.");
+            return;
+        }
         while (true) {
             System.out.println("1. send proposal");
             System.out.println("2. see proposal accept list ");
@@ -100,10 +104,19 @@ public class SpecialistMenu {
         Order order = getOrderFromUser();
         System.out.println("duration : ");
         int duration = Integer.parseInt(scanner.nextLine());
-
-        System.out.println("price : ");
-        double price = Double.parseDouble(scanner.nextLine());
-
+        assert order!= null;
+        double customerPrice = order.getProposedPrice();
+        System.out.println("Customer's price: " + customerPrice);
+        double price;
+        while (true) {
+            System.out.println("Enter your proposed price (must be higher than " + customerPrice + "): ");
+            price = Double.parseDouble(scanner.nextLine());
+            if (price > customerPrice) {
+                break;
+            } else {
+                System.out.println("Error: Proposed price must be higher than the customer's price.");
+            }
+        }
         Proposal proposal = Proposal.builder()
                 .order(order)
                 .duration(duration)
